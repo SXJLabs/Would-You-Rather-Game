@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Would You Rather</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #0f0f0f;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00ffcc;
+      margin-top: 30px;
+    }
+
+    #question {
+      font-size: 22px;
+      margin: 30px 0;
+    }
+
+    button {
+      width: 90%;
+      max-width: 350px;
+      padding: 18px;
+      margin: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:disabled {
+      opacity: 0.8;
+      cursor: default;
+    }
+
+    .a {
+      background: #ff4d4d;
+    }
+
+    .b {
+      background: #4da6ff;
+    }
+
+    .next {
+      background: #00ff88;
+      color: black;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Would You Rather?</h1>
+
+  <div id="question"></div>
+
+  <button id="btnA" class="a" onclick="vote('A')"></button>
+  <button id="btnB" class="b" onclick="vote('B')"></button>
+
+  <br>
+
+  <button class="next" onclick="nextQuestion()">Next Question</button>
+
+  <script>
+    const questions = [
+      { a: "Iron Man", b: "Spider-Man" },
+      { a: "Batman", b: "Superman" },
+      { a: "Fly", b: "Invisible" },
+      { a: "Rich but alone", b: "Poor but happy" }
+    ];
+
+    let index = 0;
+    let voted = false;
+
+    function loadQuestion() {
+      voted = false;
+
+      document.getElementById("question").innerText = "Would you rather...";
+
+      document.getElementById("btnA").innerText = questions[index].a;
+      document.getElementById("btnB").innerText = questions[index].b;
+
+      document.getElementById("btnA").disabled = false;
+      document.getElementById("btnB").disabled = false;
+    }
+
+    function vote(choice) {
+      if (voted) return;
+      voted = true;
+
+      let aPercent = Math.floor(Math.random() * 101);
+      let bPercent = 100 - aPercent;
+
+      let btnA = document.getElementById("btnA");
+      let btnB = document.getElementById("btnB");
+
+      btnA.disabled = true;
+      btnB.disabled = true;
+
+      // show % inside buttons
+      btnA.innerText = `${questions[index].a} — ${aPercent}%`;
+      btnB.innerText = `${questions[index].b} — ${bPercent}%`;
+
+      // highlight chosen button slightly
+      if (choice === "A") {
+        btnA.style.transform = "scale(1.05)";
+      } else {
+        btnB.style.transform = "scale(1.05)";
+      }
+    }
+
+    function nextQuestion() {
+      index++;
+      if (index >= questions.length) index = 0;
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
